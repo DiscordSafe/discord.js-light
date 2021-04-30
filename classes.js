@@ -382,6 +382,7 @@ Discord.Structures.extend("ClientPresence", P => {
 	};
 });
 
+/*
 Discord.Structures.extend("Interaction", I => {
 	return class Interaction extends I {
 		constructor(client, data) {
@@ -398,6 +399,7 @@ Discord.Structures.extend("Interaction", I => {
 		}
 	};
 });
+*/
 
 Discord.Structures.extend("CommandInteraction", C => {
 	return class CommandInteraction extends C {
