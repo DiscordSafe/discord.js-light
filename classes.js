@@ -382,6 +382,32 @@ Discord.Structures.extend("ClientPresence", P => {
 	};
 });
 
+Discord.Structures.extend("Interaction", I => {
+	return class Interaction extends I {
+		constructor(client, data) {
+			super(client, data);
+
+			this.user = this.client.users.add(data.user ?? data.member.user, this.client.options.cacheMembers || this.client.users.cache.has(data.user.id));
+			this.member = data.member ? this.client.members.add(data.member, this.client.options.cacheMembers || this.client.members.cache.has(data.member.id)) : null;
+		}
+		get channel() {
+			return this.channelID ? this.client.channels.cache.get(this.channelID) || this.client.channels.add({ id: this.channelID }, this.guild, false) : null;
+		}
+		get guild() {
+			return this.client.guilds.cache.get(this.guildID) || this.client.guilds.add(this.guildID, false);
+		}
+	};
+});
+
+Discord.Structures.extend("CommandInteraction", C => {
+	return class CommandInteraction extends C {
+		get command() {
+			const id = this.commandID;
+			return this.guild?.commands.cache.get(id) ?? this.client.application.commands.cache.get(id) ?? this.guild?.commands.cache.add(id, this.client.options.cacheCommands || this.guild?.commands.cache.has(id)) ?? this.client.application.commands.cache.add(id, this.client.options.cacheCommands || this.client.application.commands.cache.has(id));
+		}
+	};
+});
+
 Discord.Channel.create = (client, data, _guild) => {
 	let channel;
 	let guild = _guild;

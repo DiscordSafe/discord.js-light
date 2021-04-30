@@ -57,6 +57,7 @@ declare module "discord.js-light" {
 		cacheOverwrites?:boolean
 		cacheEmojis?:boolean
 		cacheMembers?:boolean
+		cacheCommands?:boolean
 		disabledEvents?: Array<string>
 	}
 	interface ClientEvents {

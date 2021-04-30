@@ -251,4 +251,14 @@ PacketHandlers.WEBHOOKS_UPDATE = (client, packet, shard) => {
 	client.actions.WebhooksUpdate.handle(packet.d);
 };
 
+PacketHandlers.INTERACTION_CREATE = (client, { d: data }, shard) => {
+	const guild = client.guilds.cache.get(data.guild_id) || client.guilds.add({
+		id: data.guild_id,
+		shardID: shard.id
+	}, false);
+
+	const interaction = guild?.commands.cache.get(data.id) ?? client.application.commands.cache.get(data.id) ?? guild?.commands.cache.add(data.id, client.options.cacheCommands || guild?.commands.cache.has(data.id)) ?? client.application.commands.cache.add(data.id, client.options.cacheCommands || client.application.commands.cache.has(data.id));
+	client.emit(Constants.Events.INTERACTION_CREATE, interaction);
+};
+
 module.exports = PacketHandlers;

@@ -16,6 +16,7 @@ Discord.Client = class Client extends Discord.Client {
 			cacheOverwrites: false,
 			cacheEmojis: false,
 			cacheMembers: false,
+			cacheCommands: true,
 			disabledEvents: [],
 			..._options
 		};
